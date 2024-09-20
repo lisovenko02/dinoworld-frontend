@@ -6,7 +6,7 @@ type EraTypes =
   | 'Early Jurassic'
 
 export interface Product {
-  id: string
+  _id: string
   dinoName: string
   image: string
   rarity: 'Common' | 'Rare' | 'Super Rare' | 'Legendary'

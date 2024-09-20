@@ -5,3 +5,10 @@ export interface Inventory {
   userId: string
   userProducts: Product[]
 }
+
+export interface InventoryResponse {
+  currentPage: number
+  items: Product[]
+  totalItems: number
+  totalPages: number
+}

@@ -28,9 +28,8 @@ body,
 }
 
 .custom-img {
-  max-width: none;
-  height: 200px;
-  width: 200px;
+  max-width: 256px;
+  max-height: 200px;
 }
 
 .custom-inventory-img {
@@ -42,5 +41,21 @@ body,
 @media (min-width: 910px) {
   .grid-cols-custom {
     grid-template-columns: repeat(5, 1fr);
+    width: 520px;
+    height: 520px;
+  }
+}
+
+@layer utilities {
+  .button-offer {
+    @apply text-base rounded-lg font-semibold text-neutral-50 bg-emerald-800 p-3;
+  }
+
+  .list-rarity {
+    @apply cursor-pointer bg-slate-100 border p-2 rounded w-32 text-center font-medium;
+  }
+
+  .list-rarity.isActive {
+    @apply bg-slate-300;
   }
 }

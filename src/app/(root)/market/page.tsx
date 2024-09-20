@@ -2,18 +2,17 @@
 
 import { useGetProductsQuery } from '@/state/api'
 import React from 'react'
-import ProductCard from '../../(components)/ProductCard'
+import ProductCard from '../../components/ProductCard'
 
 const Market = () => {
   const { data: products } = useGetProductsQuery()
-
   return (
     <div>
       {/* PRODUCTS LIST */}
       <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 h-full">
         {products &&
           products.map((product) => (
-            <ProductCard product={product} key={product.id} />
+            <ProductCard product={product} key={product._id} />
           ))}
       </ul>
     </div>

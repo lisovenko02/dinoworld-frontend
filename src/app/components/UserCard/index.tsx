@@ -27,9 +27,7 @@ const UserCard = ({ user }: UserCardProps) => {
 
       {/* RIGHT SIDE */}
       <div>
-        <button className="text-16 rounded-lg border font-semibold text-white border-blue-500 bg-blue-600 p-4">
-          Trade
-        </button>
+        <button className="button-offer">Exchange offer</button>
       </div>
     </li>
   )

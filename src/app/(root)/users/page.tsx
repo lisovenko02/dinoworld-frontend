@@ -1,6 +1,6 @@
 'use client'
 
-import UserCard from '@/app/(components)/UserCard'
+import UserCard from '@/app/components/UserCard'
 import { useGetUsersQuery } from '@/state/api'
 import { ArrowRightCircle, UserRoundSearch } from 'lucide-react'
 import React from 'react'

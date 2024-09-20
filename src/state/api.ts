@@ -1,4 +1,4 @@
-import { Inventory } from '@/app/types/Inventory'
+import { InventoryResponse } from '@/app/types/Inventory'
 import { Product } from '@/app/types/Product'
 import { User } from '@/app/types/User'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
@@ -16,8 +16,11 @@ export const api = createApi({
       query: () => '/user',
       providesTags: ['AllUsers'],
     }),
-    getInventory: build.query<Product[], string>({
-      query: (userId) => `/inventory/${userId}`,
+    getInventory: build.query<
+      InventoryResponse,
+      { userId: string; page?: number }
+    >({
+      query: ({ userId, page = 1 }) => `/inventory/${userId}?page=${page}`,
       providesTags: ['UserInventory'],
     }),
   }),
