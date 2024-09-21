@@ -18,9 +18,9 @@ const Inventory = ({ params }: InventoryProps) => {
   const [selectedRarity, setSelectedRarity] = useState<string>('All')
   const [showModal, setShowModal] = useState<boolean>(false)
 
-  const handleToggleSwitch = () => {
-    setShowModal(!showModal)
-  }
+  // const handleToggleSwitch = () => {
+  //   setShowModal(!showModal)
+  // }
 
   const { data: inventoryItems } = useGetInventoryQuery({
     userId: params.id,

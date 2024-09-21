@@ -19,9 +19,9 @@ interface AuthFormData {
 const AuthForm = ({ type }: { type: 'sign-in' | 'sign-up' }) => {
   const {
     control,
-    register,
+    // register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<AuthFormData>({
     resolver: yupResolver(authFormSchema(type)),
   })
