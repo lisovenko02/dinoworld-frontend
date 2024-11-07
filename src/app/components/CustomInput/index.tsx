@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useController, Control, FieldValues, FieldPath } from 'react-hook-form'
+import { LiaEye, LiaEyeSlash } from 'react-icons/lia'
 
 type CustomInputProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>
@@ -24,20 +25,36 @@ const CustomInput = <TFieldValues extends FieldValues>({
     name,
   })
 
+  const [showPassword, setShowPassword] = useState(false)
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState)
+  }
+
   return (
-    <div className="w-full">
-      <label className="form-label">{label}</label>
-      <div className="flex flex-col w-full">
+    <div className="w-full relative">
+      <label className="block text-gray-700 text-sm font-bold mb-2">
+        {label}
+      </label>
+      <div className="flex items-center w-full relative">
         <input
           placeholder={placeholder}
-          className="input-class border"
-          type={type}
+          className={`input-class border w-full py-2 px-3 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 ${
+            error ? 'border-red-500' : 'border-gray-300'
+          }`}
+          type={showPassword && type === 'password' ? 'text' : type}
           {...field}
         />
-        {error && (
-          <p className="form-message mt-2 text-red-500">{error.message}</p>
+        {type === 'password' && (
+          <span
+            onClick={togglePasswordVisibility}
+            className="absolute right-3 cursor-pointer text-gray-500"
+          >
+            {showPassword ? <LiaEyeSlash size={24} /> : <LiaEye size={24} />}
+          </span>
         )}
       </div>
+      {error && <p className="text-red-500 text-xs mt-1">{error.message}</p>}
     </div>
   )
 }

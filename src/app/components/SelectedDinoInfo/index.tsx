@@ -1,5 +1,6 @@
-import { Product } from '@/app/types/Product'
+import { Product } from '@/app/types'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 export interface SelectedDinoInfoProps {
@@ -53,6 +54,15 @@ const SelectedDinoInfo = ({
         />
         {selectedDino.diet}
       </p>
+
+      <hr className="border border-solid w-full border-slate-100" />
+
+      <Link
+        href={`/market/${selectedDino._id}`}
+        className="flex items-center justify-center w-full mt-4 px-4 py-2 bg-blue-500 text-gray-50 font-semibold rounded-lg hover:bg-blue-700 transition"
+      >
+        Details
+      </Link>
     </>
   )
 }

@@ -1,15 +1,18 @@
-import Image from 'next/image'
+'use client'
 
-export default function RootLayout({
+import Image from 'next/image'
+import StoreProvider from '../redux'
+
+export default function AuthLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <main className="flex min-h-screen w-full justify-between bg-sky-50">
-      {children}
-      <div className="flex h-screen w-full sticky top-0 items-center justify-end bg-slate-50 max-lg:hidden">
-        <div>
+    <StoreProvider>
+      <main className="flex min-h-screen w-full justify-between bg-sky-50">
+        {children}
+        <div className="flex h-screen w-full sticky top-0 items-center justify-end bg-slate-50 max-lg:hidden">
           <Image
             src="/images/dinoauth.png"
             alt="Auth Image"
@@ -18,7 +21,7 @@ export default function RootLayout({
             className="h-screen w-screen object-cover"
           />
         </div>
-      </div>
-    </main>
+      </main>
+    </StoreProvider>
   )
 }

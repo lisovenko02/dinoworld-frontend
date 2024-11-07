@@ -5,7 +5,7 @@ import { Dialog, Transition } from '@headlessui/react'
 
 export interface ModalProps {
   children?: React.ReactNode
-    show: boolean
+  show: boolean
   onClose: () => void
 }
 

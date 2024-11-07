@@ -2,12 +2,14 @@
 
 import SelectedDinoInfo from '@/app/components/SelectedDinoInfo'
 import SelectedDinoInfoModal from '@/app/components/SelectedDinoInfoModal'
-import { InventoryResponse } from '@/app/types/Inventory'
+import { InventoryResponse } from '@/app/types'
 import { useGetInventoryQuery } from '@/state/api'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { BsArrowLeftSquare, BsArrowRightSquare } from 'react-icons/bs'
 import { useMediaQuery } from 'react-responsive'
+import { useUser } from '../../dashboardWrapper'
+import Link from 'next/link'
 type InventoryProps = {
   params: { id: string }
 }
@@ -18,9 +20,7 @@ const Inventory = ({ params }: InventoryProps) => {
   const [selectedRarity, setSelectedRarity] = useState<string>('All')
   const [showModal, setShowModal] = useState<boolean>(false)
 
-  // const handleToggleSwitch = () => {
-  //   setShowModal(!showModal)
-  // }
+  const { user } = useUser()
 
   const { data: inventoryItems } = useGetInventoryQuery({
     userId: params.id,
@@ -29,6 +29,7 @@ const Inventory = ({ params }: InventoryProps) => {
     data: InventoryResponse | undefined
   }
   const items = inventoryItems?.items ?? []
+  const owner = inventoryItems?.userInfo
 
   const filteredItems =
     selectedRarity === 'All'
@@ -78,37 +79,47 @@ const Inventory = ({ params }: InventoryProps) => {
         <div className="flex flex-col gap-6">
           {/* USER INFO */}
           <div className="flex justify-between">
-            <div className="flex gap-5 items-center">
+            <Link
+              href={`/users/${owner?._id}`}
+              className="flex gap-5 items-center cursor-pointer"
+            >
               <Image
-                src="/images/dinosaur-bones.png"
+                src={owner?.imageUrl || '/images/dinosaur-bones.png'}
                 width={60}
                 height={60}
                 alt="hello"
                 className="rounded-lg"
               />
-              <h2 className="font-bold text-xl">User Inventory</h2>
-            </div>
-            <button className="button-offer my-2">
-              {/* OFFER LINK */}
-              Exchange offer
-            </button>
+              <h2 className="font-bold text-xl">
+                {`${owner?.username}'s inventory`}
+              </h2>
+            </Link>
+
+            {user?._id !== params.id && (
+              <Link href={`/trade/${params.id}`} className="button-offer my-2">
+                {/* OFFER LINK */}
+                Exchange offer
+              </Link>
+            )}
           </div>
           {/* RARITY */}
-          <ul className="flex justify-around text-lg">
-            {['All', 'Common', 'Rare', 'Super Rare', 'Legendary'].map(
-              (rarity) => (
-                <li
-                  key={rarity}
-                  className={`list-rarity ${
-                    selectedRarity === rarity ? 'isActive font-bold' : ''
-                  }`}
-                  onClick={() => handleRarityClick(rarity)}
-                >
-                  {rarity}
-                </li>
-              )
-            )}
-          </ul>
+          {isTabletOrMobile && (
+            <ul className="flex justify-around text-lg">
+              {['All', 'Common', 'Rare', 'Super Rare', 'Legendary'].map(
+                (rarity) => (
+                  <li
+                    key={rarity}
+                    className={`list-rarity ${
+                      selectedRarity === rarity ? 'isActive font-bold' : ''
+                    }`}
+                    onClick={() => handleRarityClick(rarity)}
+                  >
+                    {rarity}
+                  </li>
+                )
+              )}
+            </ul>
+          )}
         </div>
 
         {/* LOWER SECTION */}
@@ -173,7 +184,9 @@ const Inventory = ({ params }: InventoryProps) => {
                   dietImg={dietImg}
                 />
               ) : (
-                <p>Select a dinosaur to see details</p>
+                <p className="text-gray-500 text-lg italic mt-4">
+                  Select a dinosaur to see details
+                </p>
               )}
             </div>
           ) : (

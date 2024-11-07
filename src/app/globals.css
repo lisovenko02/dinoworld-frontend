@@ -38,6 +38,12 @@ body,
   width: 95px;
 }
 
+.image-container {
+  max-width: 500px;
+  max-height: 400px;
+  width: 100%;
+  height: auto;
+}
 @media (min-width: 910px) {
   .grid-cols-custom {
     grid-template-columns: repeat(5, 1fr);

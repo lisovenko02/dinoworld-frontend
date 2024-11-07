@@ -1,69 +1,112 @@
-import { Product } from '@/app/types/Product'
+import { Product } from '@/app/types'
+import { useAddProductMutation } from '@/state/api'
 import Image from 'next/image'
-
-// LEGENDARY - amber-400
-// SUPER RARE - red-500
-// RARE - purple-500
-// COMMON - blue-500
+import Link from 'next/link'
+import { forwardRef } from 'react'
+import toast from 'react-hot-toast'
+import { showErrorToast } from '../../../../lib/utils'
 
 type ProductCardProps = {
   product: Product
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
-  const { image, dinoName, price, rarity, attack, defense, appeal } = product
+const ProductCard = forwardRef<HTMLLIElement, ProductCardProps>(
+  ({ product }, ref) => {
+    const [addProduct, { isLoading }] = useAddProductMutation()
 
-  const rarityTextStyle =
-    rarity === 'Legendary'
-      ? 'text-amber-400'
-      : rarity === 'Super Rare'
-      ? 'text-rose-600'
-      : rarity === 'Rare'
-      ? 'text-purple-500'
-      : 'text-blue-500'
+    const { _id, image, dinoName, price, rarity, attack, defense, appeal } =
+      product
 
-  return (
-    <li className="flex p-5 justify-between bg-gray-100 border-2 rounded">
-      {/* RIGHT SIDE */}
-      {/* bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 p-4 rounded-md */}
-      {/* bg-gradient-to-r from-gray-200 via-blue-50 to-gray-300 p-4 rounded-md */}
-      <div className="flex flex-col gap-4 lg:ml-2">
-        <div className="bg-gradient-to-r from-gray-200 via-teal-50 to-gray-300 lg:p-4 md:p-0 rounded-md">
-          <Image
-            src={image}
-            alt="name"
-            width={200}
-            height={200}
-            className="custom-img"
-          />
+    const rarityTextStyle =
+      rarity === 'Legendary'
+        ? 'text-amber-400'
+        : rarity === 'Super Rare'
+        ? 'text-rose-600'
+        : rarity === 'Rare'
+        ? 'text-purple-500'
+        : 'text-blue-500'
+
+    const handleSubmitProduct = async ({
+      productId,
+      dinoName,
+    }: {
+      productId: string
+      dinoName: string
+    }) => {
+      try {
+        await addProduct(productId).unwrap()
+        toast.success(`You have successfully purchased a ${dinoName}`)
+      } catch (error) {
+        showErrorToast(error)
+      }
+    }
+
+    return (
+      <li
+        ref={ref}
+        className="flex flex-col bg-white dark:bg-slate-200 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105"
+      >
+        <div className="relative w-full">
+          <div className="flex justify-center items-center h-64 w-full mt-6">
+            <Image
+              src={image}
+              alt={dinoName}
+              layout="intrinsic"
+              width={256}
+              height={200}
+              style={{ width: 'auto', height: 'auto' }}
+              className="custom-img"
+            />
+          </div>
+
+          <div className="absolute top-4 left-4">
+            <Link
+              href={`/market/${_id}`}
+              className="bg-slate-300 hover:bg-slate-400 font-semibold py-1 px-3 rounded transition duration-200 dark:bg-gray-500 dark:hover:bg-gray-400 text-sm"
+            >
+              View Details
+            </Link>
+          </div>
         </div>
-        <h2 className={`ml-16 text-xl font-bold ${rarityTextStyle}`}>
-          {dinoName}
-        </h2>
-      </div>
 
-      {/* LEFT-SIDE */}
-      <div className="flex flex-col justify-between md:ml-2 lg:ml-0">
-        <div className="flex flex-col gap-3">
-          <p className="text-lg text-gray-700">
-            <span className="font-bold">Appeal:</span> {appeal}
-          </p>
-          <p className="text-lg text-gray-700">
-            <span className="font-bold">Attack:</span> {attack}
-          </p>
-          <p className="text-lg text-gray-700">
-            <span className="font-bold">Defense:</span> {defense}
-          </p>
-        </div>
-        <div className="flex flex-col gap-2">
-          <p className="text-lg ml-1">${price}</p>
-          <button className="text-16 rounded-lg border font-semibold text-white border-blue-500 bg-blue-600 p-3">
-            Order Now
+        <div className="p-4 flex flex-col gap-2">
+          <div className="flex justify-between text-lg items-end">
+            <h2
+              className={`text-2xl font-bold text-zinc-700 dark:text-zinc-200`}
+            >
+              {dinoName}
+            </h2>
+            <span className="font-bold text-green-600">
+              ${price.toLocaleString()}
+            </span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <h3 className={`text-xl font-semibold ${rarityTextStyle} mb-2`}>
+              {rarity}
+            </h3>
+            <p className="text-gray-700 dark:text-gray-600">
+              <span className="font-semibold">Appeal:</span> {appeal}
+            </p>
+            <p className="text-gray-700 dark:text-gray-600">
+              <span className="font-semibold">Attack:</span> {attack}
+            </p>
+            <p className="text-gray-700 dark:text-gray-600">
+              <span className="font-semibold">Defense:</span> {defense}
+            </p>
+          </div>
+          <button
+            className="mt-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 rounded transition duration-200 dark:bg-blue-500 dark:hover:bg-blue-400"
+            disabled={isLoading}
+            onClick={() => handleSubmitProduct({ productId: _id, dinoName })}
+          >
+            {isLoading ? 'Processing...' : 'Order Now'}
           </button>
         </div>
-      </div>
-    </li>
-  )
-}
+      </li>
+    )
+  }
+)
+
+ProductCard.displayName = 'ProductCard'
 
 export default ProductCard

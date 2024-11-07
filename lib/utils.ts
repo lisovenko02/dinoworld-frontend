@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import * as yup from 'yup'
 
 export const authFormSchema = (type: string) => {
@@ -17,7 +18,7 @@ export const authFormSchema = (type: string) => {
         : yup
             .string()
             .min(3, 'Username must be at least 3 characters')
-            .required('Username is required'),
+            .optional(),
 
     // SIGN UP ONLY
     firstName:
@@ -41,4 +42,28 @@ export const authFormSchema = (type: string) => {
       .min(8, 'Password must be at least 8 characters')
       .required('Password is required'),
   })
+}
+
+export const EditUserSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Invalid email format')
+    .required('Email is required'),
+  firstName: yup.string().required('First name is required'),
+  lastName: yup.string().required('Last name is required'),
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .notRequired()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === '' ? null : value)),
+})
+
+export function showErrorToast(error: unknown): void {
+  if (error && typeof error === 'object' && 'data' in error) {
+    const typedError = error as { data: { message: string } }
+    toast.error(`Failed: ${typedError.data.message}`)
+  } else {
+    toast.error('An unknown error occurred')
+  }
 }

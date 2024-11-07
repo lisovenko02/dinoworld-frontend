@@ -1,9 +1,14 @@
+import { useUser } from '@/app/(root)/dashboardWrapper'
 import { useAppDispatch, useAppSelector } from '@/app/redux'
 import { setIsDarkMode, setIsSideBarCollapsed } from '@/state'
-import { Bell, Menu, Moon, Sun } from 'lucide-react'
+import { Menu, Moon, Sun } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 const Navbar = () => {
+  const { user } = useUser()
+
   const dispatch = useAppDispatch()
 
   const isSideBarCollapsed = useAppSelector(
@@ -17,9 +22,10 @@ const Navbar = () => {
   const toggleDarkMode = () => {
     dispatch(setIsDarkMode(!isDarkMode))
   }
+
   return (
     <div className="flex justify-between items-center w-full mb-5">
-      {/* LEFT SIDE*/}
+      {/* LEFT SIDE */}
       <div className="flex justify-between items-center gap-5">
         {/* BURGER */}
         <button
@@ -28,42 +34,60 @@ const Navbar = () => {
         >
           <Menu className="w-4 h-4" />
         </button>
-
-        {/* SEARCH BAR */}
-        {/* <div className="relative md:block hidden">
-          <input
-            type="text"
-            className="pl-10 pr-4 py-2 w-50 md:w-60 border-2 border-gray-300 bg-white rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          <div className="absolute flex items-center pointer-events-none inset-y-0 left-0 pl-3">
-            <UserRoundSearch size={20} />
-          </div>
-        </div> */}
       </div>
+
       {/* RIGHT SIDE */}
       <div className="flex justify-between items-center gap-5">
-        <div>
-          <button onClick={toggleDarkMode}>
-            {isDarkMode ? (
-              <Sun className="cursor-pointer" size={24} />
-            ) : (
-              <Moon className="cursor-pointer" size={24} />
-            )}
-          </button>
-        </div>
-        <div>
-          <div className="relative">
-            <Bell className="cursor-pointer" size={24} />
-            <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-400 rounded-full">
-              2
-            </span>
-          </div>
-        </div>
+        <button onClick={toggleDarkMode}>
+          {isDarkMode ? (
+            <Sun className="cursor-pointer" size={24} />
+          ) : (
+            <Moon className="cursor-pointer" size={24} />
+          )}
+        </button>
+
         <hr className="w-0 h-7 border border-solid mx-3" />
-        <div className="flex items-center gap-5">
-          <div className="cursor-pointer">img</div>
-          <button className="font-semibold cursor-pointer">IvanDjan</button>
-        </div>
+
+        {/* User Information */}
+        {user ? (
+          <div className="flex items-center gap-5">
+            <Link
+              href={`/users/${user._id}`}
+              className="cursor-pointer w-8 h-8 bg-gray-400 rounded-full"
+            >
+              <Image
+                src={user.imageUrl || '/images/dinosaur-bones.png'}
+                alt="User Avatar"
+                className="w-full h-full object-cover rounded-full"
+                width={100}
+                height={100}
+              />
+            </Link>
+            <div>
+              <Link
+                href={`/users/${user._id}`}
+                className="font-semibold text-gray-900 cursor-pointer"
+              >
+                {user.username}
+              </Link>
+              <Link href={'/replenishment'}>
+                <p className="text-sm text-green-600 font-medium">
+                  $
+                  {user.money?.toLocaleString('en-US', {
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <Link
+            href="/sign-in"
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </div>
   )
