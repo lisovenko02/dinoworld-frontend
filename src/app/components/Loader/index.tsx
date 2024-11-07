@@ -1,20 +1,10 @@
 import React from 'react'
-import { RotatingLines } from 'react-loader-spinner'
+import { PacmanLoader } from 'react-spinners'
 
 const Loader = ({ isLoading }: { isLoading: boolean }) => {
   return (
     <div className="flex justify-center items-center h-screen">
-      <RotatingLines
-        width={80}
-        height={80}
-        color="#808080"
-        visible={isLoading}
-        strokeWidth="5"
-        animationDuration="0.75"
-        ariaLabel="rotating-lines-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-      />
+      <PacmanLoader color="#0932f5" size={40} loading={isLoading} />
     </div>
   )
 }
