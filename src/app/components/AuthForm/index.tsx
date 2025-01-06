@@ -45,7 +45,6 @@ const AuthForm = ({ initialType }: { initialType: 'sign-in' | 'sign-up' }) => {
       } else {
         await signUp(data).unwrap()
         toast.success('Sign-up successful!')
-        console.log(data)
       }
       router.push('/market')
     } catch (error) {
@@ -73,17 +72,17 @@ const AuthForm = ({ initialType }: { initialType: 'sign-in' | 'sign-up' }) => {
       <header className="absolute top-5 left-5">
         <Link href="/market" className="flex cursor-pointer gap-1 items-center">
           <GiDinosaurBones size={30} color="#b87333" />
-          <h1 className="text-xl font-bold text-slate-900">
+          <h1 className="text-xl font-bold text-zinc-800">
             DINO<span className="text-amber-500">WORLD</span>
           </h1>
         </Link>
       </header>
 
       <div className="flex flex-col items-center w-full max-w-md space-y-6">
-        <h1 className="text-2xl font-bold text-slate-900">
+        <h1 className="text-2xl font-bold text-zinc-800">
           {initialType === 'sign-up' ? 'Sign Up' : 'Sign In'}
         </h1>
-        <p className="text-lg font-semibold text-gray-700">
+        <p className="text-lg font-semibold text-zinc-700">
           Please enter your details
         </p>
 
@@ -134,7 +133,7 @@ const AuthForm = ({ initialType }: { initialType: 'sign-in' | 'sign-up' }) => {
 
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg transition-colors duration-300"
+            className="w-full py-3 px-4 bg-amber-500 hover:bg-amber-600 text-slate-800 font-semibold rounded-lg transition-colors duration-300"
           >
             {initialType === 'sign-in' ? 'Sign In' : 'Sign Up'}
           </button>
@@ -142,7 +141,7 @@ const AuthForm = ({ initialType }: { initialType: 'sign-in' | 'sign-up' }) => {
 
         <button
           onClick={toggleForm}
-          className="text-sm text-blue-600 hover:underline mt-4"
+          className="text-sm text-sky-600 hover:underline mt-4"
         >
           {initialType === 'sign-in'
             ? 'Don’t have an account? Sign Up'

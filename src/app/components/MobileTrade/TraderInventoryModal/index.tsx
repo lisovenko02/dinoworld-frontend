@@ -29,7 +29,7 @@ const TraderInventoryModal = ({
 
           <div className="h-[400px] overflow-y-auto">
             {items.length > 0 ? (
-              <ul className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+              <ul className="grid grid-cols-2 min-[400px]:grid-cols-3 sm:grid-cols-5 gap-3">
                 {items.map((product, index) => (
                   <li
                     key={`${product._id}-${index}`}

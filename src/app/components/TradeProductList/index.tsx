@@ -31,7 +31,7 @@ const ProductList = ({
         </Link>
       </div>
       {products.length > 0 ? (
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4">
+        <ul className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4">
           {products.map((product: Product) => (
             <li
               key={`${product._id}-${uuidv4()}`}

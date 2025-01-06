@@ -8,6 +8,7 @@ import { FaRegMoneyBill1 } from 'react-icons/fa6'
 import { useUser } from '../dashboardWrapper'
 import Loader from '@/app/components/Loader'
 import ProtectedRoute from '@/app/components/ProtectedRoute'
+import { useMediaQuery } from 'react-responsive'
 
 const PAYMENT_OPTIONS = [50000, 150000, 500000, 1000000, 2000000]
 
@@ -49,6 +50,9 @@ const Replenishment = () => {
       setIsLoading(false)
     }
   }
+
+  const isTabletOrDesktop = useMediaQuery({ minWidth: 680 })
+
   return isLoading ? (
     <Loader isLoading={isLoading} />
   ) : (
@@ -66,13 +70,13 @@ const Replenishment = () => {
                 className="flex justify-between items-center p-5 bg-slate-200 transition-colors duration-200 border dark:border-gray-500 rounded-lg shadow-md"
               >
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
+                  <h2 className="text-base sm:text-lg font-semibold text-gray-900">
                     {option.toLocaleString()} $
                   </h2>
                 </div>
                 <button
                   onClick={() => handleDepositClick(option)}
-                  className="flex items-center gap-3 bg-green-400 text-green-800 px-5 py-2 rounded-lg hover:bg-green-500 transition-colors duration-200 shadow-sm"
+                  className="flex items-center gap-3 bg-green-400 text-green-800 px-4 py-2 rounded-lg hover:bg-green-500 transition-colors duration-200 shadow-sm"
                   disabled={isLoading}
                 >
                   <FaRegMoneyBill1 size={20} />
@@ -84,12 +88,14 @@ const Replenishment = () => {
         </div>
 
         {/* Balance Section */}
-        <div className="flex flex-col items-center p-6 bg-slate-100 rounded-lg shadow-lg w-1/3">
-          <h2 className="text-xl font-bold text-gray-900">Your Balance</h2>
-          <p className="text-4xl font-bold text-green-600 mt-4">
-            ${currentBalance?.toLocaleString() || 0}
-          </p>
-        </div>
+        {isTabletOrDesktop && (
+          <div className="flex flex-col items-center p-6 bg-slate-100 rounded-lg shadow-lg w-1/3">
+            <h2 className="text-xl font-bold text-gray-900">Your Balance</h2>
+            <p className="text-4xl font-bold text-green-600 mt-4">
+              ${currentBalance?.toLocaleString() || 0}
+            </p>
+          </div>
+        )}
       </div>
     </ProtectedRoute>
   )

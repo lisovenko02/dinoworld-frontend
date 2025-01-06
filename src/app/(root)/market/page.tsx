@@ -65,7 +65,6 @@ const Market = () => {
           }
         })}
       </ul>
-
       {isLoading && <Loader isLoading={isLoading} />}
     </div>
   )

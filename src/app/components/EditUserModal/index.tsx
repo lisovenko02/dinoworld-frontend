@@ -14,7 +14,7 @@ import { EditUserFormData } from '@/app/types'
 const EditUserModal = ({ onClose, show }: ModalProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const { user, setUser } = useUser()
-  console.log('user', user)
+
   const [editProfile] = useEditProfileMutation()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [currentImageUrl, setCurrentImageUrl] = useState(user?.imageUrl)
@@ -138,7 +138,7 @@ const EditUserModal = ({ onClose, show }: ModalProps) => {
               errors.email
                 ? 'border-red-500'
                 : 'border-gray-300 dark:border-gray-600'
-            } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100`}
+            } text-gray-900 dark:text-gray-100 bg-zinc-300`}
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -157,7 +157,7 @@ const EditUserModal = ({ onClose, show }: ModalProps) => {
               errors.firstName
                 ? 'border-red-500'
                 : 'border-gray-300 dark:border-gray-600'
-            } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100`}
+            }  text-gray-900 dark:text-gray-100 bg-zinc-300`}
           />
           {errors.firstName && (
             <p className="text-red-500 text-sm mt-1">
@@ -178,7 +178,7 @@ const EditUserModal = ({ onClose, show }: ModalProps) => {
               errors.lastName
                 ? 'border-red-500'
                 : 'border-gray-300 dark:border-gray-600'
-            } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100`}
+            }   text-gray-900 dark:text-gray-100 bg-zinc-300`}
           />
           {errors.lastName && (
             <p className="text-red-500 text-sm mt-1">
@@ -195,8 +195,13 @@ const EditUserModal = ({ onClose, show }: ModalProps) => {
           <input
             {...register('password', { required: false })}
             type="password"
-            className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600  text-gray-900 dark:text-gray-100 "
+            className="w-full px-4 py-2 rounded-md   text-gray-900 dark:text-gray-100 bg-zinc-300"
           />
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
         {/* Submit Button */}

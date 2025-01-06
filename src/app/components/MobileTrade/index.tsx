@@ -16,8 +16,7 @@ const MobileTrade = ({
   handleSubmitClick,
 }: MobileTradeProps) => {
   const [showModal, setShowModal] = useState(false)
-  console.log('initiatorInfo', initiatorInfo)
-  console.log('receiverInfo', receiverInfo)
+
   const [whosInventory, setWhosInventory] = useState<
     'initiator' | 'receiver' | null
   >(null)
@@ -26,7 +25,7 @@ const MobileTrade = ({
     setWhosInventory(owner)
     setShowModal(!showModal)
   }
-  console.log('initiatorInfo', initiatorInfo)
+
   const currentInventory =
     whosInventory === 'initiator' ? initiatorItems : receiverItems
 
@@ -49,7 +48,7 @@ const MobileTrade = ({
             <h2 className="text-xl font-bold">{`${initiatorInfo?.username}'s items`}</h2>
           </Link>
           <div className="flex mx-auto w-[315px] sm:w-[540px]">
-            <ul className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+            <ul className="grid grid-cols-2 min-[400px]:grid-cols-3 sm:grid-cols-5 gap-3">
               {initiatorTradeItems &&
                 initiatorTradeItems.map((item, index) => (
                   <li
@@ -93,7 +92,7 @@ const MobileTrade = ({
             <h2 className="text-xl font-bold">{`${receiverInfo?.username}'s items`}</h2>
           </Link>
           <div className="flex mx-auto w-[315px] sm:w-[540px]">
-            <ul className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-6">
+            <ul className="grid grid-cols-2 min-[400px]:grid-cols-3 sm:grid-cols-5 gap-3 mb-6">
               {receiverTradeItems &&
                 receiverTradeItems.map((item, index) => (
                   <li

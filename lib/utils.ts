@@ -6,7 +6,7 @@ export const authFormSchema = (type: string) => {
     // EMAIL OR USERNAME
     email:
       type === 'sign-in'
-        ? yup.string().email('Invalid email address').optional() // Дозволяємо пусте, оскільки username також допустимо
+        ? yup.string().email('Invalid email address').optional()
         : yup
             .string()
             .email('Invalid email address')
@@ -14,7 +14,7 @@ export const authFormSchema = (type: string) => {
 
     username:
       type === 'sign-in'
-        ? yup.string().required('Email or Username is required') // username є обов'язковим для sign-in
+        ? yup.string().required('Email or Username is required')
         : yup
             .string()
             .min(3, 'Username must be at least 3 characters')
@@ -49,8 +49,14 @@ export const EditUserSchema = yup.object().shape({
     .string()
     .email('Invalid email format')
     .required('Email is required'),
-  firstName: yup.string().required('First name is required'),
-  lastName: yup.string().required('Last name is required'),
+  firstName: yup
+    .string()
+    .min(2, 'First Name must be at least 2 symbols')
+    .required('First name is required'),
+  lastName: yup
+    .string()
+    .min(2, 'Last Name must be at least 2 symbols')
+    .required('Last name is required'),
   password: yup
     .string()
     .min(8, 'Password must be at least 8 characters')

@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { useConfirmedTradeMutation } from '@/state/api'
 import { Trade } from '@/app/types'
 import ProductList from '../TradeProductList'
+import Link from 'next/link'
+import toast from 'react-hot-toast'
 
 export interface TradeCardProps {
   trade: Trade
@@ -21,17 +23,19 @@ const TradeCard = ({ trade }: TradeCardProps) => {
   const [confirmedTrade] = useConfirmedTradeMutation()
   const [loading, setLoading] = useState<boolean>(false)
   const [currentStatus, setCurrentStatus] = useState<string>(status)
-  console.log('initiator', initiator)
-  console.log('receiver', receiver)
-  console.log('isLoggedUserReceiver', isLoggedUserReceiver)
+
   const handleConfirmedTrade = async (newStatus: string) => {
     setLoading(true)
     try {
       await confirmedTrade({ tradeId, status: newStatus }).unwrap()
-      console.log('Trade status updated:', { tradeId, newStatus })
       setCurrentStatus(newStatus)
     } catch (error) {
-      console.error('Failed to update trade status:', error)
+      if (error && typeof error === 'object' && 'data' in error) {
+        const typedError = error as { data: { message: string } }
+        toast.error(`Failed: ${typedError.data.message}`)
+      } else {
+        toast.error('An unknown error occurred')
+      }
     } finally {
       setLoading(false)
     }
@@ -47,16 +51,22 @@ const TradeCard = ({ trade }: TradeCardProps) => {
       }`}
     >
       <div className="flex gap-3 items-center">
-        <div className="relative w-10 h-10 flex-shrink-0">
+        <Link
+          href={`/users/${initiator._id}`}
+          className="relative w-10 h-10 flex-shrink-0"
+        >
           <Image
             src={initiator.imageUrl || '/images/dinosaur-bones.png'}
             layout="fill"
             objectFit="cover"
             alt={trade._id}
-            className="rounded-full border border-gray-300"
+            className="rounded-full border border-gray-300 custom-inventory-img"
           />
-        </div>
-        <p className="font-semibold text-lg">{`${initiator.username} offers a trade`}</p>
+        </Link>
+        <Link
+          href={`/users/${initiator._id}`}
+          className="font-semibold text-lg"
+        >{`${initiator.username} offers a trade`}</Link>
       </div>
 
       <div className="p-4 border bg-slate-100 relative rounded-md">
@@ -75,7 +85,7 @@ const TradeCard = ({ trade }: TradeCardProps) => {
           {currentStatus === 'Canceled' && (
             <div className="absolute inset-0 top-[-12px] flex justify-center">
               <span className="px-2 bg-slate-100 text-base text-red-500 font-semibold">
-                Trade was canceled by the receiver
+                Trade was canceled
               </span>
             </div>
           )}

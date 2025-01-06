@@ -115,7 +115,7 @@ const Profile = ({ params }: ProfileProps) => {
             {profileData?.inventory?.map((product, index) => (
               <li
                 key={`${product._id}-${index}`}
-                className="bg-gray-50 dark:bg-[#2A2A2A] p-4 rounded-lg shadow hover:shadow-lg transition-transform duration-300 transform hover:scale-105"
+                className="flex items-center justify-center bg-gray-50 dark:bg-[#2A2A2A] p-4 rounded-lg shadow hover:shadow-lg transition-transform duration-300 transform hover:scale-105"
               >
                 <Image
                   src={product.image}

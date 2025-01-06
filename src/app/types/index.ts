@@ -173,3 +173,14 @@ export interface TraderInventoryModalProps {
   owner: 'initiator' | 'receiver'
   handlePushToTrade: ({ product, owner }: OwnerAndProductProps) => void
 }
+
+export interface ItemPurchaseModalProps {
+  show: boolean
+  onClose: () => void
+  product: Product
+  isLoading: boolean
+  handleSubmitProduct: (params: {
+    productId: string
+    dinoName: string
+  }) => Promise<void>
+}

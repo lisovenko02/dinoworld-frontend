@@ -155,7 +155,7 @@ export const Sidebar = () => {
               <SidebarLink
                 href="/trade"
                 icon={BaggageClaim}
-                label="Trade"
+                label="History"
                 isCollapsed={isSidebarCollapsed}
               />
               <SidebarLink
@@ -170,15 +170,17 @@ export const Sidebar = () => {
       </div>
 
       <div>
-        <div className="mb-4">
-          <SidebarLink
-            href="/sign-in"
-            icon={LogOut}
-            label="Log Out"
-            isCollapsed={isSidebarCollapsed}
-            isLogout={true}
-          />
-        </div>
+        {user && (
+          <div className="mb-4">
+            <SidebarLink
+              href="/sign-in"
+              icon={LogOut}
+              label="Log Out"
+              isCollapsed={isSidebarCollapsed}
+              isLogout={true}
+            />
+          </div>
+        )}
         <div className={`${isSidebarCollapsed ? 'hidden' : 'block'} mb-10`}>
           <p className="text-center text-xs">&copy; 2024 DINOWORLD</p>
         </div>

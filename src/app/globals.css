@@ -46,7 +46,7 @@ body,
 }
 @media (min-width: 910px) {
   .grid-cols-custom {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, 1fr) !important;
     width: 520px;
     height: 520px;
   }

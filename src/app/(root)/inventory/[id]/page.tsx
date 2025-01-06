@@ -123,10 +123,10 @@ const Inventory = ({ params }: InventoryProps) => {
         </div>
 
         {/* LOWER SECTION */}
-        <div className="p-3 border bg-slate-100 mt-4 ml-1.5 flex gap-5 max-w-[884px]">
+        <div className="flex items-center justify-center p-3 border bg-slate-100 mt-4 ml-1.5 gap-5 max-w-[884px]">
           {/* INVENTORY ITEMS */}
           <div className="flex flex-col">
-            <ul className="grid grid-cols-3 grid-cols-custom grid-rows-2 w-full ">
+            <ul className="grid grid-cols-2 md:grid-cols-3 grid-cols-custom grid-rows-2 w-full ">
               {filteredItems &&
                 filteredItems.map((item, index) => (
                   <li
@@ -184,9 +184,11 @@ const Inventory = ({ params }: InventoryProps) => {
                   dietImg={dietImg}
                 />
               ) : (
-                <p className="text-gray-500 text-lg italic mt-4">
-                  Select a dinosaur to see details
-                </p>
+                <div className="h-full">
+                  <p className="text-gray-500 text-lg italic mt-4">
+                    Select a dinosaur to see details
+                  </p>
+                </div>
               )}
             </div>
           ) : (

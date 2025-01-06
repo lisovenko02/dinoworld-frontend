@@ -34,8 +34,8 @@ const TradePage = ({ params }: TradePageProps) => {
   const { data: tradersProducts } = useGetTradersInventoriesQuery({
     receiverId,
   })
-  const [requestTrade] = useRequestTradeMutation()
-  console.log('tradersProducts', tradersProducts)
+  const [requestTrade, { isLoading: isTrading }] = useRequestTradeMutation()
+
   const [whosInventory, setWhosInventory] = useState<'initiator' | 'receiver'>(
     'initiator'
   )
@@ -46,7 +46,7 @@ const TradePage = ({ params }: TradePageProps) => {
   const [draggedItem, setDraggedItem] = useState<Product | null>(null)
 
   const [currentPage, setCurrentPage] = useState(1)
-  console.log('tradersProducts', tradersProducts)
+
   const initiator = tradersProducts?.initiator?.user || null
   const receiver = tradersProducts?.receiver?.user || null
 
@@ -265,7 +265,7 @@ const TradePage = ({ params }: TradePageProps) => {
                       : 'bg-gray-100 text-gray-900  border-gray-300 hover:bg-gray-400'
                   }`}
                 >
-                  Their inventory
+                  Receiver inventory
                 </button>
               </div>
 
@@ -452,6 +452,7 @@ const TradePage = ({ params }: TradePageProps) => {
               <div>
                 <button
                   onClick={() => handleSubmitClick()}
+                  disabled={isTrading}
                   className="button-offer w-full"
                 >
                   Make offer

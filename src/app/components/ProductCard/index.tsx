@@ -2,9 +2,10 @@ import { Product } from '@/app/types'
 import { useAddProductMutation } from '@/state/api'
 import Image from 'next/image'
 import Link from 'next/link'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { showErrorToast } from '../../../../lib/utils'
+import ItemPurchaseModal from '../ItemPurchaseModal/ItemPurchaseModal'
 
 type ProductCardProps = {
   product: Product
@@ -12,6 +13,8 @@ type ProductCardProps = {
 
 const ProductCard = forwardRef<HTMLLIElement, ProductCardProps>(
   ({ product }, ref) => {
+    const [showModal, setShowModal] = useState(false)
+
     const [addProduct, { isLoading }] = useAddProductMutation()
 
     const { _id, image, dinoName, price, rarity, attack, defense, appeal } =
@@ -35,10 +38,15 @@ const ProductCard = forwardRef<HTMLLIElement, ProductCardProps>(
     }) => {
       try {
         await addProduct(productId).unwrap()
+        setShowModal(false)
         toast.success(`You have successfully purchased a ${dinoName}`)
       } catch (error) {
         showErrorToast(error)
       }
+    }
+
+    const handleModalOpenSwitch = () => {
+      setShowModal(!showModal)
     }
 
     return (
@@ -97,11 +105,20 @@ const ProductCard = forwardRef<HTMLLIElement, ProductCardProps>(
           <button
             className="mt-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 rounded transition duration-200 dark:bg-blue-500 dark:hover:bg-blue-400"
             disabled={isLoading}
-            onClick={() => handleSubmitProduct({ productId: _id, dinoName })}
+            onClick={() => setShowModal(true)}
           >
             {isLoading ? 'Processing...' : 'Order Now'}
           </button>
         </div>
+        {showModal && (
+          <ItemPurchaseModal
+            onClose={handleModalOpenSwitch}
+            show={true}
+            product={product}
+            isLoading={isLoading}
+            handleSubmitProduct={handleSubmitProduct}
+          />
+        )}
       </li>
     )
   }

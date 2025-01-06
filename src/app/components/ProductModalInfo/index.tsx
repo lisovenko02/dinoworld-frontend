@@ -1,6 +1,7 @@
 import { Product } from '@/app/types'
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 interface ProductModalInfoProps {
   product: Product
@@ -25,6 +26,8 @@ const ProductModalInfo = ({ product }: ProductModalInfoProps) => {
       ? 'https://static.wikia.nocookie.net/jurassicworld-evolution/images/6/65/Piscivore_icon.svg/revision/latest?cb=20210829102915'
       : 'https://static.wikia.nocookie.net/jurassicworld-evolution/images/4/44/Herbivore_icon.svg/revision/latest?cb=20210829102724'
 
+  const isTabletOrMobile = useMediaQuery({ minWidth: 815 })
+
   return (
     <div
       className="relative group"
@@ -40,7 +43,13 @@ const ProductModalInfo = ({ product }: ProductModalInfoProps) => {
       />
 
       {showTooltip && (
-        <div className="absolute flex flex-col left-10 -top-20 p-4 border-2 border-slate-600 rounded-lg shadow-xl w-[350px] z-50 bg-gradient-to-br from-slate-50 to-slate-200 transition-transform duration-300 transform -translate-y-2">
+        <div
+          className={`absolute flex flex-col p-4 border-2 border-slate-600 rounded-lg shadow-xl z-50 bg-gradient-to-br from-slate-50 to-slate-200 transition-transform duration-300 transform ${
+            isTabletOrMobile
+              ? 'left-full top-0 ml-2 w-[350px]'
+              : 'left-0 top-full mt-2 w-[200px]'
+          }`}
+        >
           <div className="flex justify-center mb-2">
             <Image
               src={product.image}

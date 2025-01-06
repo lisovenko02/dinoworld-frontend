@@ -33,13 +33,13 @@ const CustomInput = <TFieldValues extends FieldValues>({
 
   return (
     <div className="w-full relative">
-      <label className="block text-gray-700 text-sm font-bold mb-2">
+      <label className="block text-zinc-700 text-sm font-bold mb-2">
         {label}
       </label>
       <div className="flex items-center w-full relative">
         <input
           placeholder={placeholder}
-          className={`input-class border w-full py-2 px-3 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 ${
+          className={`input-class border w-full text-zinc-700 py-2 px-3 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 ${
             error ? 'border-red-500' : 'border-gray-300'
           }`}
           type={showPassword && type === 'password' ? 'text' : type}
@@ -48,7 +48,7 @@ const CustomInput = <TFieldValues extends FieldValues>({
         {type === 'password' && (
           <span
             onClick={togglePasswordVisibility}
-            className="absolute right-3 cursor-pointer text-gray-500"
+            className="absolute right-3 cursor-pointer text-zinc-700"
           >
             {showPassword ? <LiaEyeSlash size={24} /> : <LiaEye size={24} />}
           </span>

@@ -132,10 +132,7 @@ const Product = ({ params }: ProductProps) => {
             </div>
           </div>
 
-          <p className="text-gray-900 dark:text-zinc-300 mb-4 text-lg leading-relaxed">
-            {description}
-          </p>
-          <div className="text-sm font-medium text-gray-600 dark:text-gray-400 space-y-1">
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-400 space-y-1 mb-2">
             <p className="text-gray-900 dark:text-zinc-300 text-base font-semibold">
               <span className="text-lg font-bold">Era:</span> {era}
             </p>
@@ -152,6 +149,9 @@ const Product = ({ params }: ProductProps) => {
               {type}
             </p>
           </div>
+          <p className="text-gray-900 dark:text-zinc-300 mb-4 text-lg leading-relaxed">
+            {description}
+          </p>
 
           <div className="flex justify-end">
             <button
